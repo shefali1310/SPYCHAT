@@ -121,11 +121,7 @@ def send_message():
 
     friend_list[friend_choice].chats.append(new_chat)
 
-    # if len(new_chat)>0:
-    #
-    #
     print "\nYour secret message image is ready!"
-    # else:
 
 
 #read_message is a function that would read the message from a friend.
@@ -135,16 +131,25 @@ def read_message():
 
     output_path = raw_input("What is the name of the file?")
 
-    secret_text = Steganography.decode(output_path)
+    try:
+        secret_text = Steganography.decode(output_path)
+    except:
+        print "your message is not valid"
+        return
 
-    new_chat = ChatMessage(secret_text,False)
+    new_chat = ChatMessage(secret_text, False)
 
     friend_list[sender].chats.append(new_chat)
+
+    print "\nYour secret message has been saved!\n" + secret_text
 
     if secret_text.upper() in special_messages:
         print "We are on our way!\n"
 
-    print "\nYour secret message has been saved!\n" + secret_text
+    if (len(secret_text.split(" "))) > 100:
+        print "the spy" + spy.name + "was talking too much hence was deleted"
+    del friend_list[sender]
+
 
 #read_chat_history is a function that would display the chat history between the spy and his friend.
 def read_chat_history():
